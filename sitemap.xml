@@ -50,27 +50,48 @@
     <loc>http://localhost:3000/c31-segmentazione</loc>
   </url>
   <url>
-    <loc>http://localhost:3000/connected-tree-example</loc>
+    <loc>http://localhost:3000/n-3-1-seg-soglia</loc>
   </url>
   <url>
-    <loc>http://localhost:3000/esempio-em-gmm</loc>
+    <loc>http://localhost:3000/n-3-2-esempio-fcm</loc>
   </url>
   <url>
-    <loc>http://localhost:3000/esempio-fcm</loc>
+    <loc>http://localhost:3000/n-3-3-esempio-em-gmm</loc>
   </url>
   <url>
-    <loc>http://localhost:3000/hierarchical-clustering-example</loc>
+    <loc>http://localhost:3000/n-3-4-hierarchical-clustering-example</loc>
   </url>
   <url>
-    <loc>http://localhost:3000/mser-example</loc>
+    <loc>http://localhost:3000/n-3-5-esempio-labeling-region-growing</loc>
   </url>
   <url>
-    <loc>http://localhost:3000/seg-contorni</loc>
+    <loc>http://localhost:3000/n-3-6-seg-contorni</loc>
   </url>
   <url>
-    <loc>http://localhost:3000/seg-soglia</loc>
+    <loc>http://localhost:3000/n-3-8-mser-example</loc>
   </url>
   <url>
-    <loc>http://localhost:3000/watershed-example</loc>
+    <loc>http://localhost:3000/n-3-9-connected-tree-example</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/n-3-10-thinning</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/z-3-1-esercitazione</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/z-3-2-esercitazione</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/z-3-3-esercitazione</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/z-3-4-esercitazione</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/c14-imm-biom</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/dice-jaccard-demonstration</loc>
   </url>
 </urlset>
