@@ -103,4 +103,31 @@
   <url>
     <loc>http://localhost:3000/n-5-2-image-fusion</loc>
   </url>
+  <url>
+    <loc>http://localhost:3000/c16-imm-biom</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/n-6-1-nnc-example</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/n-6-2-linear-classifier</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/n-6-3-linear-classifier-test2</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/n-6-4-simple-nn-test2</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/n-6-5-transfer-learning-test2</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/n-6-6-vgg-cnn-test2</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/n-6-7-simple-unet-test3</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/n-6-8-vgg-cnn-xai-test2</loc>
+  </url>
 </urlset>
