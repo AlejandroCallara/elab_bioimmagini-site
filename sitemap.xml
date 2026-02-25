@@ -5,9 +5,6 @@
     <loc>http://localhost:3000</loc>
   </url>
   <url>
-    <loc>http://localhost:3000/c10-info</loc>
-  </url>
-  <url>
     <loc>http://localhost:3000/c11-imm-biom</loc>
   </url>
   <url>
@@ -104,6 +101,9 @@
     <loc>http://localhost:3000/n-5-2-image-fusion</loc>
   </url>
   <url>
+    <loc>http://localhost:3000/z-5-1-esercitazione</loc>
+  </url>
+  <url>
     <loc>http://localhost:3000/c16-imm-biom</loc>
   </url>
   <url>
@@ -129,5 +129,17 @@
   </url>
   <url>
     <loc>http://localhost:3000/n-6-8-vgg-cnn-xai-test2</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/z-6-1-esercitazione</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/z-6-2-esercitazione</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/z-6-3-esercitazione</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/c17-pacs</loc>
   </url>
 </urlset>
