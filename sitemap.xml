@@ -5,6 +5,9 @@
     <loc>http://localhost:3000</loc>
   </url>
   <url>
+    <loc>http://localhost:3000/c10-info</loc>
+  </url>
+  <url>
     <loc>http://localhost:3000/c11-imm-biom</loc>
   </url>
   <url>
