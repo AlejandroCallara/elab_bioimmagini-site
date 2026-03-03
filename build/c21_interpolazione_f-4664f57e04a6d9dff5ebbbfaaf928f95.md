@@ -141,7 +141,7 @@ Group Element	| Title	| Esempio
 [0028-0150]	| Window Centre	| 163
 [0028-0151]	| Window Width	| 327
    
-I primi due parametri, “Smallest Image Pixel Value” e “Largest Image Pixel Value” permettono di leggere il massimo e minimo valore dell’immagine e di creare una funzione di windowing lineare, evitando di comprendere nell’operazione di windowing valori al di fuori del campo di definizione dell’immagine, anche se compresi nella massima profondità teorica. I parametri successivi “Window Centre” e “Window Width” definiscono una finestra di Windowing da utilizzare nella visualizzazione dell’immagine. Questa finestra viene tipicamente salvata nel DICOM al momento dell’acquisizione in base ad una ottimizzazione fatta dal produttore. Il programma di visualizzazione leggerà dal DICOM la finestra e produrrà una visualizzazione iniziale dell’immagine che l’utente potrà poi modificare.
+I primi due parametri, *Smallest Image Pixel Value* e *Largest Image Pixel Value* permettono di leggere il massimo e minimo valore dell’immagine e di creare una funzione di windowing lineare, evitando di comprendere nell’operazione di windowing valori al di fuori del campo di definizione dell’immagine, anche se compresi nella massima profondità teorica. I parametri successivi *Window Centre* e *Window Width* definiscono una finestra di Windowing da utilizzare nella visualizzazione dell’immagine. Questa finestra viene tipicamente salvata nel DICOM al momento dell’acquisizione in base ad una ottimizzazione fatta dal produttore. Il programma di visualizzazione leggerà dal DICOM la finestra e produrrà una visualizzazione iniziale dell’immagine che l’utente potrà poi modificare.
 Come illustrato in Figura 2.8, l’operazione di Windowing per quanto semplice in via di principio è estremamente importante nella pratica clinica, e necessita quindi di una accurata implementazione.
 Vale la pena di notare che le lastre radiografiche tradizionali o le immagini digitali in formato standard (jpeg, tiff) allegate ad un referto elettronico rappresentano il prodotto di una precisa operazione di Windowing eseguita dal medico refertante, con l’obiettivo di fornire la migliore informazione iconografica al paziente ed al medico inviante. Esse non hanno però valore legale, in quanto l’operazione di Windowing può cancellare alcune componenti delle immagini se eseguita in modo inappropriato. L’unica fonte certa sono quindi le immagini digitali in formato DICOM, che vengono quindi immagazzinate e sempre più spesso consegnate al paziente su supporto digitale (tipicamente un DVD contenente un visualizzatore DICOM).     
  
@@ -206,7 +206,7 @@ $$
 \end{bmatrix}
 $$
 
-I filtri gaussiani riducono il rumore riducendo l’effetto di sfuocaσmento dell’immagine. Esempi di filtri gaussiani con diversa deviazione standard sono:
+I filtri gaussiani riducono il rumore riducendo l’effetto di sfuocamento dell’immagine. Esempi di filtri gaussiani con diversa deviazione standard sono:
 
 $$ \sigma = 0.391, \quad dim=3 \times 3 \\
 \begin{bmatrix}
@@ -622,7 +622,7 @@ $$
 Y_k=D_k T_k h_k X+n_k
 $$
 
-$Y_k$ sono le $N$ immagini a bassa risoluzione che abbiamo disponibili dal sistema di imaging (le immagini reali nel modello di immagine biomedica introdotta nel primo capitolo). $D_k$ rappresenta in processo di “downsampling” che riduce il numero di pixel dell’immagine $X$. $T_k$ rappresenta la trasformazione geometrica che descrive la posizione della griglia di acquisizione più l’eventuale deformazione indotta dal processo di acquisizione, ad esempio per i movimenti del paziente tra una acquisizione e l’altra. hk rappresenta l’effetto volume parziale che può essere modellato come la convoluzione con un kernel gaussiano in 2D o 3D. Nel caso di slice spacing nullo $h_k$ è un filtro gaussiano 3D con kernel anisotropico con dimensione legata alla risoluzione spaziale lungo i tre assi. $X$ è l’immagine “ideale” ad alta risoluzione. $n_k$ è il rumore indotto dal sistema di imaging per il quale possono essere fatte le considerazione viste in precedenza per il modello dell’immagine biomedica. 
+$Y_k$ sono le $N$ immagini a bassa risoluzione che abbiamo disponibili dal sistema di imaging (le immagini reali nel modello di immagine biomedica introdotta nel primo capitolo). $D_k$ rappresenta in processo di “downsampling” che riduce il numero di pixel dell’immagine $X$. $T_k$ rappresenta la trasformazione geometrica che descrive la posizione della griglia di acquisizione più l’eventuale deformazione indotta dal processo di acquisizione, ad esempio per i movimenti del paziente tra una acquisizione e l’altra. $h_k$ rappresenta l’effetto volume parziale che può essere modellato come la convoluzione con un kernel gaussiano in 2D o 3D. Nel caso di slice spacing nullo $h_k$ è un filtro gaussiano 3D con kernel anisotropico con dimensione legata alla risoluzione spaziale lungo i tre assi. $X$ è l’immagine “ideale” ad alta risoluzione. $n_k$ è il rumore indotto dal sistema di imaging per il quale possono essere fatte le considerazione viste in precedenza per il modello dell’immagine biomedica. 
 Lo scopo di un algoritmo di super-resolution è stimare $X$ note le immagini a bassa risoluzione $Y_k$. 
 Se la risoluzione spaziale delle immagini $Y_k$ è la stessa, $h_1=h_2=...=h_N = h$ e $D_1=D_2=...=D_N=D$. Tipicamente anche il rumore avrà la stessa distribuzione in tutte le acquisizioni, quindi avremo:
 
@@ -632,7 +632,7 @@ $$
 
 In generale il problema di stimare $X$ da  $Y_k$ è un tipico problema inverso, che è tipicamente “mal posto” e quindi non ha una soluzione univoca. Il modo più semplice di risolvere il problema è attraverso un algoritmo di “iterated back-projection”, in cui viene fatta una stima di $X$ e si cerca di minimizzare in modo iterativo la differenza tra gli $Y_k$ prodotti dalla stima di $X$ e gli $Y_k$ misurati (M Irani et al CVGIP 1991, doi: 10.1016/1049-9652(91)90045-L).
 Preliminarmente alla soluzione del problema inverso, è necessario stimare il disallineamento tra le immagini $Y_k$. In alcuni casi il disallineamento può essere noto, ad esempio dalle informazioni DICOM. Altrimenti il disallineamento deve essere stimato attraverso un algoritmo di registrazione di immagini che verrà introdotto nei capitoli successivi. 
-L’idea di base dell’algoritmo è quella di partire da una stima dell’immagine HR $X0$ (ottenuta ad esempio dall’interpolazione di una immagine LR). A questo punto da $X0$ si stimano le immagini LR sulla base della conoscenza di $D_k$, che come prima detto si considera nota, e di $h$ che è un filtro opportuno che tiene conto del PVE. Si ottiene così la stima di $Y_k$ al passo 1 come:
+L’idea di base dell’algoritmo è quella di partire da una stima dell’immagine HR $X_0$ (ottenuta ad esempio dall’interpolazione di una immagine LR). A questo punto da $X_0$ si stimano le immagini LR sulla base della conoscenza di $D_k$, che come prima detto si considera nota, e di $h$ che è un filtro opportuno che tiene conto del PVE. Si ottiene così la stima di $Y_k$ al passo 1 come:
 
 $$
 \hat{Y}_k^{(1)}=D T_k h X_0
@@ -683,7 +683,7 @@ $$
 + \gamma \lVert C \hat{X} \rVert^2
 $$
 
-Dove C rappresenta un filtraggio di tipo passa-alto, quindi ad esempio il gradiente dell’immagine, e γ è una costante che rappresenta il peso della regolarizzazione nel processo di minimizzazione della metrica. Chiaramente la presenza del filtro C penalizza le soluzioni con bruschi cambiamenti di segnale ottenendo la regolarizzazione. 
+Dove $C$ rappresenta un filtraggio di tipo passa-alto, quindi ad esempio il gradiente dell’immagine, e $\gamma$ è una costante che rappresenta il peso della regolarizzazione nel processo di minimizzazione della metrica. Chiaramente la presenza del filtro $C$ penalizza le soluzioni con bruschi cambiamenti di segnale ottenendo la regolarizzazione. 
  
 Sono stati proposti molti altri algoritmi per la soluzione del problema inverso in super-resolution, quali il  Deterministic Regularized Approach,  lo Statistical Regularized Approach e altri. Per maggiori informazioni si può fare riferimento alle review di Van Reeth et al (doi: 10.1002/cmra.21249) e H Greenspan et al (doi:10.1093/comjnl/bxm075).
 

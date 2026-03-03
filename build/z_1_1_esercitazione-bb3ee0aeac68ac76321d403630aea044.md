@@ -42,7 +42,17 @@ Se tracciamo una ROI all’interno di un pattern la SD del segnale nella ROI sar
 
 *Figura 1.34. Mappa di SD e relativo istogramma.*
 
-Automatizzando la procedura, possiamo far scorrere sull’immagine un kernel (ad esempio 5x5) che rappresenta la ROI e valutare il valore della deviazione standard SD sulla regione di immagine coperta dal kernel. In MATLAB questa operazione è implementata dalla funzione stdfilt. Si otterranno quindi un numero di valori di SD uguale al numero di pixel dell’immagine. Nelle regioni all’interno dei pattern uniformi il valore della SD sarà pari alla deviazione standard del rumore σ, almeno nel caso di rumore gaussiano additivo. Nelle regioni a cavallo di due pattern il valore di SD sarà maggiore di σ. Come al solito la dimensione del kernel rappresenterà un compromesso tra l’esigenza di calcolare correttamente la SD e la necessità di avere la maggior parte delle misure eseguita su regioni omogenee. 
+Automatizzando la procedura, è possibile far scorrere sull’immagine un kernel
+(ad esempio $(5 \times 5)$) che rappresenta la ROI e valutare il valore della
+deviazione standard (SD) sulla regione di immagine coperta dal kernel.
+In MATLAB questa operazione è implementata dalla funzione `stdfilt`.
+
+In Python, un’operazione equivalente può essere realizzata utilizzando la libreria
+**SciPy**, ad esempio tramite la funzione `scipy.ndimage.generic_filter`,
+oppure calcolando la varianza locale mediante `scipy.ndimage.uniform_filter`
+e ricavando la deviazione standard come radice quadrata della varianza locale.
+
+Nelle regioni all’interno dei pattern uniformi il valore della SD sarà pari alla deviazione standard del rumore σ, almeno nel caso di rumore gaussiano additivo. Nelle regioni a cavallo di due pattern il valore di SD sarà maggiore di σ. Come al solito la dimensione del kernel rappresenterà un compromesso tra l’esigenza di calcolare correttamente la SD e la necessità di avere la maggior parte delle misure eseguita su regioni omogenee. 
 Come si vede dalla figura, l’istogramma della mappa SD avrà un picco in corrispondenza del valore di $\sigma$ ed una serie di valori più alti corrispondenti alle transizioni distribuiti in modo uniforme. 
 Se l’immagine è composta prevalentemente da regioni omogenee (pochi pattern di forma regolare) si può supporre che il contributo delle regioni di transizione sia trascurabile e calcolare $\sigma$ come media della mappa: 
 
@@ -68,7 +78,7 @@ In Figura 1.35 è riportata la stima della SD per i diversi metodi.
 
 *Figura 1.35. Valori stimati di SD per diversi metodi.*
 
-Questo approccio è simile ad un altro metodo utilizzato per la stima del rumore nel quale l’immagine viene divisa in $N$ quadrati di lato $k$ non sovrapposti di cui viene calcolata la SD, ed il valore di $\sigma$ viene stimato come media degli m campioni con valore di SD più basso (al limite un singolo campione). Il metodo basato sull’istogramma è comunque in generale più accurato. 
+Questo approccio è simile ad un altro metodo utilizzato per la stima del rumore nel quale l’immagine viene divisa in $N$ quadrati di lato $k$ non sovrapposti di cui viene calcolata la SD, ed il valore di $\sigma$ viene stimato come media degli $m$ campioni con valore di SD più basso (al limite un singolo campione). Il metodo basato sull’istogramma è comunque in generale più accurato. 
 Come si osserva dal grafico il metodo Mean sovrastima il valore del rumore, mentre gli altri due metodi danno una stima sostanzialmente corretta. 
 Tutti questi metodi si basano sull’assunzione di rumore gaussiano additivo. Se come avviene tipicamente nelle immagini biomediche questa assunzione non è verificata, bisogna operare sulla base della conoscenza del processo di acquisizione. Consideriamo ad esempio l’immagine MR di un phantom cilindrico, composto da tre cilindri concentrici, due riempiti con acqua e quello intermedio con olio (valore di segnale più alto). Essendo il fantoccio riempito con liquido perfettamente omogeneo il rumore biologico è trascurabile. Le dimensioni del fantoccio sono piccole rispetto al bore della macchina MR (15 cm circa) e quindi si può considerare nulla l’attenuazione. Come si osserva nell’immagine a destra ottenuta con una opportuna finestra di windowing, alcuni pixel dell’immagine non sono stati ricostruiti dal K-spazio ma rappresentano un “riempimento” per ottenere una immagine quadrata (zero-padding). A tali pixel in MR viene assegnato il valore convenzionale 0 e devono essere ignorati nell’elaborazione (Figura 1.36).
                                 
@@ -111,7 +121,7 @@ Come si osserva la stima con i metodi median e max hist migliora in modo signifi
 
 ## Esercitazione
 Lo scopo dell’esercitazione è replicare le misure di qualità dell’immagine che vengono eseguite in un laboratorio MR in modo routinario. L’immagine a disposizione è quella di un fantoccio sferico utilizzato per la valutazione del rapporto segnale rumore e dell’uniformità di segnale (quindi una valutazione dell’eventuale presenza di attenuazione) (Figura 1.40). 
-L’immagine è stata acquisita su una macchina MR Signa HDxt General Electric a 3 Tesla, come si può osservare dall’header DICOM. Il valore del campo PatientID = ‘geservice’ indica che le immagini sono state acquisite per un controllo di qualità. L’immagine è una immagine 2D Fast Spin Echo. Il fantoccio è una sfera con diametro 26 cm acquisita in modo da ottenere la massima sezione. Il FOV dovrebbe essere centrato sul centro della sfera, in realtà è abbastanza disassato ed ha il centro intorno a (233 253). 
+L’immagine è stata acquisita su una macchina MR Signa HDxt General Electric a 3 Tesla, come si può osservare dall’header DICOM. Il valore del campo *PatientID* = ‘geservice’ indica che le immagini sono state acquisite per un controllo di qualità. L’immagine è una immagine 2D Fast Spin Echo. Il fantoccio è una sfera con diametro 26 cm acquisita in modo da ottenere la massima sezione. Il FOV dovrebbe essere centrato sul centro della sfera, in realtà è abbastanza disassato ed ha il centro intorno a (233 253). 
 
 <img src="./images/image-40.png" alt="fantoccio" style="width:100%;">
 
@@ -126,7 +136,7 @@ Per la misura dell’SNR il protocollo è tipicamente strutturato come:
 5. Calcolare il valore di SNR come $SNR=S/N$.
 
 Il motivo per cui il protocollo prevede il calcolo della baseline (punto 2) è che il produttore della macchina potrebbe sommare arbitrariamente un valore costante all’immagine facendo salire S e quindi il valore di SNR senza modificare il contrasto. Quindi in realtà la procedura misura il valore di CNR tra il fantoccio ed il fondo.
-Dovremo quindi realizzare un programma MATLAB che implementi in modo automatico la procedura del protocollo assicurando che vengano rispettate le indicazioni, in particolare quelle sulle dimensioni delle ROI e che fornisca in uscita il valore di SNR. 
+Dovremo quindi realizzare un programma python che implementi in modo automatico la procedura del protocollo assicurando che vengano rispettate le indicazioni, in particolare quelle sulle dimensioni delle ROI e che fornisca in uscita il valore di SNR. 
 
 Il MATLAB fornisce varie funzioni per il tracciamento di ROI. La più semplice è la funzione `getrect` che permette di tracciare una ROI rettangolare con il mouse su una immagine. Funzioni più complete sono quelle del toolbox “ROI-Based Processing” come `drawfreehand` che permette di tracciare una ROI a mano libera, `drawcircle` (cerchio), `drawellipse` (ellisse), `drawpolygon` (poligono generico), `drawrectangle` (rettangolo), etc. In Python, funzionalità analoghe sono fornite da librerie di visualizzazione e image processing.
 In particolare, la libreria **matplotlib** permette di tracciare ROI rettangolari interattive
@@ -141,9 +151,9 @@ Il calcolo dell’uniformità, e quindi della presenza di un campo di attenuazio
 3. Determinare la deviazione media assoluta $AAD = \sum _{i} |S_{i}-S_{m}|/N_{i}$ dove Si è il valore di segnale dei singoli pixel contenuti nella ROI80 
 4. Calcolare $UH = 1-ADD/Sm$ 
 
-In assenza di rumore, se non c’è attenuazione $ADD=0$ e $UH=1$ (massima uniformità, nessuna attenuazione). Se c’è attenuazione, ci sarà una variazione di segnale e ADD sarà maggiore di zero abbassando il valore di $UH$. Per un’immagine reale ci sarà presenza di rumore e ADD sarà comunque diverso da zero in quanto il segnale varierà. Il presupposto della misura è che Sm sarà molto alto, in quanto il fantoccio sarà costruito a questo scopo, per cui in assenza di attenuazione $UH$ sarà molto vicino ad uno. 
-Anche in questo caso dovremo realizzare un programma MATLAB automatico che implementi la procedura del protocollo assicurando che vengano rispettate le indicazioni, in particolare quelle sulle dimensioni delle ROI, e che fornisca in uscita il valore di $UH$. 
-Infine, andiamo a valutare la presenza di PVE sull’immagine 1 del fantoccio calcolando l’acutezza della transizione. A questo scopo occorre definire un profilo, cioè un segmento posto sull’immagine che intersechi una transizione, ed estrarre il grafico del valore di segnale sul profilo, come esemplificato in figura per il software ImageJ.
+In assenza di rumore, se non c’è attenuazione $ADD=0$ e $UH=1$ (massima uniformità, nessuna attenuazione). Se c’è attenuazione, ci sarà una variazione di segnale e ADD sarà maggiore di zero abbassando il valore di $UH$. Per un’immagine reale ci sarà presenza di rumore e ADD sarà comunque diverso da zero in quanto il segnale varierà. Il presupposto della misura è che $Sm$ sarà molto alto, in quanto il fantoccio sarà costruito a questo scopo, per cui in assenza di attenuazione $UH$ sarà molto vicino ad uno. 
+Anche in questo caso dovremo realizzare un programma python automatico che implementi la procedura del protocollo assicurando che vengano rispettate le indicazioni, in particolare quelle sulle dimensioni delle ROI, e che fornisca in uscita il valore di $UH$. 
+Infine, andiamo a valutare la presenza di PVE sull’immagine 1 del fantoccio calcolando l’acutezza della transizione. A questo scopo occorre definire un profilo, cioè un segmento posto sull’immagine che intersechi una transizione, ed estrarre il grafico del valore di segnale sul profilo, come esemplificato in Figura 1.41 per il software ImageJ.
 
 <img src="./images/image-41.png" alt="profilo" style="width:100%;">
 
