@@ -68,13 +68,18 @@ Un punto debole della procedura prima descritta è il tracciamento manuale del m
 ## Esercitazione
 Lo scopo dell’esercitazione è segmentare una sequenza 2D+T di perfusione miocardica attraverso l’algoritmo *k-means*. L’algoritmo *k-means* può incontrare il problema dello svuotamento di un cluster, soprattutto se un cluster è “piccolo” rispetto alle dimensioni complessive dell’immagine. Per questo motivo e per velocizzare l’algoritmo può essere quindi opportuno effettuare un “crop” dell’immagine in modo da isolare la zona di interesse.
 
-Come detto in precedenza, ogni pixel dell’immagine è caratterizzato dalla propria curva intensità/tempo, come in figura (RV, blu; LV, rosso; miocardio, verde). Le altre regioni avranno un segnale costante a meno del rumore non essendo interessate dal contrasto. L’algoritmo kmeans classificherà i pixel dell’immagine in base alla “distanza” tra le curve relative ai pixel.
+Come detto in precedenza, ogni pixel dell’immagine è caratterizzato dalla propria curva intensità/tempo, come in Figura 3.61 (RV, blu; LV, rosso; miocardio, verde). Le altre regioni avranno un segnale costante a meno del rumore non essendo interessate dal contrasto. L’algoritmo kmeans classificherà i pixel dell’immagine in base alla “distanza” tra le curve relative ai pixel.
  
+<img src="./images/image-61.png" alt="perfusione" style="width:100%;">
+
+*Figura 3.61. Curve tempo-intensità.*
+
 Se si usa una distanza classica di tipo geometrico ('sqEuclidean' o 'cityblock') il valore della distanza tra due curve sarà la somma delle differenze su tutti i campioni temporali (frame). Essendo gli ultimi frame molto simili tra loro, per esaltare la differenza tra le curve può essere preferibile usare un numero di frame temporali minore di quello a disposizione, cioè definire una finestra temporale in cui effettuare la segmentazione. 
 
-Una alternativa è utilizzare una distanza di tipo correlativo. In python questo è possibile andando a definire le distanze correlative tramite il comando 
+Una alternativa è utilizzare una distanza di tipo correlativo. In Python questo è possibile andando a definire le distanze correlative tramite la seguente normalizzazione: 
 ```python
-correlation_distances = squareform(pdist(data, metric='correlation'))
+data_z = StandardScaler(with_std=True).fit_transform(data)
+data_corr = normalize(data_z, norm='l2')
 ``` 
 e usarlo come input alla classe `Kmeans`.
 

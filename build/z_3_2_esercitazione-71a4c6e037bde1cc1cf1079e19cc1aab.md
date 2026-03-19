@@ -15,7 +15,7 @@ $$
 
 nella quale $E$ è il modulo elastico di una data arteria ovvero la sua rigidità, $h$ lo spessore della parete arteriosa, $\rho$ la densità del sangue e $D$ il diametro dell’arteria in diastole, ed è stata quindi sviluppata nel 1922 da Bramwell e dal premio Nobel Hill. Da questa relazione si evince che la $PWV$ ha una relazione diretta quadratica con il modulo elastico, ossia con la rigidità intrinseca di un vaso arterioso. $\rho$ è nota o può essere misurata con un prelievo sanguigno, $D$ e h possono essere misurati con una metodica di imaging, come nel caso dell’ecografia in figura ($h=IMT+EMT$) dove $IMT$ (Intima-media thickness) è lo spessore della parte interna (indice diagnostico legato alla presenza di arteriosclerosi) e $EMT$ (external-media thickness) è lo spessore della parete esterna. Nota la $PWV$ è quindi possibile stimare $E$.
 
-<img src="./images/image-61.png" alt="emt-imt" style="width:100%;">
+<img src="./images/image-61b.png" alt="emt-imt" style="width:100%;">
 
 *Figura 3.61.  EMT e IMT.*
 
