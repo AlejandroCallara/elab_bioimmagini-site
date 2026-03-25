@@ -532,9 +532,9 @@ Sia $D = [d(i,j)]$ la matrice $N \times N$ delle distanze. Vogliamo ottenere $N$
 L’algoritmo procederà nel modo seguente:
 
 1. Inizia con il cluster di livello $L(0) = 0$ e di posizione nella sequenza dei cluster $m = 0$.
-2. Trova i due cluster più simili, siano essi $(r)$ e $(s)$, tali che: $d[(r),(s)] = min d[(i),(j)]$ dove l’operazione di minimo è estesa a tutte le possibili coppie di cluster.
+2. Trova i due cluster più simili, siano essi $(r)$ e $(s)$, tali che: $d[(r),(s)] = min (d[(i),(j)])$ dove l’operazione di minimo è estesa a tutte le possibili coppie di cluster.
 3. Incrementa l’indice della sequenza dei cluster: $m = m +1$. Combina i cluster $(r)$ e $(s)$ in un singolo cluster di livello $L(m) = d[(r),(s)]$
-4. Aggiorna la matrice delle distanze $D$, cancellando le righe e le colonne corrispondenti ai cluster $(r)$ e $(s)$ e aggiungendo una nuova riga ed una nuova colonna corrispondenti al nuovo cluster ottenuto al passo precedente. La distanza tra il nuovo cluster e un vecchi cluster $k$ è definita come: $d[(k), (r,s)] = min d[(k),(r)], d[(k),(s)]$
+4. Aggiorna la matrice delle distanze $D$, cancellando le righe e le colonne corrispondenti ai cluster $(r)$ e $(s)$ e aggiungendo una nuova riga ed una nuova colonna corrispondenti al nuovo cluster ottenuto al passo precedente. La distanza tra il nuovo cluster e un vecchi cluster $k$ è definita come: $d[(k), (r,s)] = min (d[(k),(r)], d[(k),(s)])$
 5. Se esiste un solo cluster, la procedura si ferma. Altrimenti vai al passo **2**. 
 
 Un esempio grafico del clustering gerarchico è riportato in Figura 3.25. 
@@ -603,7 +603,7 @@ ciascuna identificata da un indice univoco.
 *Figura 3.27. Fantoccio MR, segmentazione e labeling.*
 
 ## Region Growing 
-Una estensione della segmentazione a soglia è l'algoritmo *region growing*”*, dove partendo da un pixel all’interno dell’oggetto da segmentare si estende la segmentazione a tutta la regione di interesse. In questo caso la soglia è quindi definita in modo locale come la differenza di segnale tra un pixel ed i pixel vicini. Questo approccio sfrutta le informazioni spaziali e garantisce la formazione di regioni tra loro collegate. Di fatto è una implementazione ricorsiva di una segmentazione effettuata per pixel adiacenti. 
+Una estensione della segmentazione a soglia è l'algoritmo *region growing*, dove partendo da un pixel all’interno dell’oggetto da segmentare si estende la segmentazione a tutta la regione di interesse. In questo caso la soglia è quindi definita in modo locale come la differenza di segnale tra un pixel ed i pixel vicini. Questo approccio sfrutta le informazioni spaziali e garantisce la formazione di regioni tra loro collegate. Di fatto è una implementazione ricorsiva di una segmentazione effettuata per pixel adiacenti. 
 La routine prevede la definizione di un punto di partenza all’interno del pattern da riconoscere. Il valore di livello di grigio così individuato costituisce il punto di partenza (detto ‘seed pixel’, ‘pixel seme’) per la successiva elaborazione: si vanno  ad analizzare ricorsivamente i pixel adiacenti a quello selezionato inizialmente. Quelli che hanno una differenza di livello di grigio appartenente ad un intervallo prefissato vengono selezionati, gli altri scartati. 
 
 L’approccio *region growing* prevede quindi i seguenti passi:
